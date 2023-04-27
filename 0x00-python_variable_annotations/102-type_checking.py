@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 This module contains a type-annotated function zoom_array that takes a tuple
 and returns a list
