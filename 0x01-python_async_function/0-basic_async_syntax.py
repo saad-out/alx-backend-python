@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-This module contains the function wait_random that takes an integer
-max_delay and waits for a random delay between 0 and max_delay
+This module contains the function wait_random that takes
+an integer max_delayand waits for a random delay between
+0 and max_delay
 """
 import asyncio
 import random
