@@ -34,4 +34,4 @@ async def task_wait_n(n: int, max_delay: int) -> List[float]:
         result: float = await coroutine
         results.append(result)
 
-    return sorted(results)
+    return results
