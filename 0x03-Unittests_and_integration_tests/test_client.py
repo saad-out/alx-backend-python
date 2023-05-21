@@ -23,12 +23,8 @@ class TestGithubOrgClient(unittest.TestCase):
         """
         Test that GithubOrgClient.org returns the correct value
         """
-        REPOS_URL: str = "https://api.github.com/orgs/{}/repos".format(org)
-        mocked_get_json.side_effect = [
-            {"repos_url": REPOS_URL},
-            [{"name": "{}-repo{}".format(org, i)} for i in range(3)]
-        ]
+        ORG_URL: str = "https://api.github.com/orgs/{}".format(org)
+        mocked_get_json.return_value = {"repos_url": ORG_URL + "/repos"}
         org_client: GithubOrgClient = GithubOrgClient(org)
-        repos: List[str] = org_client.public_repos()
-        self.assertEqual(repos, ["{}-repo{}".format(org, i) for i in range(3)])
-        mocked_get_json.called_once_with(REPOS_URL)
+        self.assertEqual(org_client.org, {"repos_url": ORG_URL + "/repos"})
+        mocked_get_json.called_once_with(ORG_URL)
