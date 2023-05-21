@@ -2,7 +2,7 @@
 """
 This module contains the unit tests for client.py
 """
-from typing import List
+from typing import List, Dict
 from parameterized import parameterized
 from unittest.mock import patch, Mock
 import unittest
@@ -15,16 +15,20 @@ class TestGithubOrgClient(unittest.TestCase):
     Class for testing GithubOrgClient
     """
     @parameterized.expand([
-        ("google"),
-        ("abc"),
+        ("google", {"repos_url": "https://api.github.com/orgs/google/repos"}),
+        ("abc", {"repos_url": "https://api.github.com/orgs/abc/repos"}),
     ])
     @patch('client.get_json')
-    def test_org(self, org: str, mocked_get_json: Mock) -> None:
+    def test_org(
+                 self,
+                 org: str,
+                 expected: Dict,
+                 mocked_get_json: Mock
+                 ) -> None:
         """
         Test that GithubOrgClient.org returns the correct value
         """
-        ORG_URL: str = "https://api.github.com/orgs/{}".format(org)
-        mocked_get_json.return_value = {"repos_url": ORG_URL + "/repos"}
+        mocked_get_json.return_value = expected
         org_client: GithubOrgClient = GithubOrgClient(org)
-        self.assertEqual(org_client.org, {"repos_url": ORG_URL + "/repos"})
+        self.assertEqual(org_client.org, expected)
         mocked_get_json.assert_called_once()
