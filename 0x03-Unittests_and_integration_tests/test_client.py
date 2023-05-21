@@ -4,7 +4,7 @@ This module contains the unit tests for client.py
 """
 from typing import List
 from parameterized import parameterized
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, Mock
 import unittest
 
 from client import GithubOrgClient
@@ -19,7 +19,7 @@ class TestGithubOrgClient(unittest.TestCase):
         ("abc"),
     ])
     @patch('client.get_json')
-    def test_org(self, org: str, mocked_get_json: MagicMock) -> None:
+    def test_org(self, org: str, mocked_get_json: Mock) -> None:
         """
         Test that GithubOrgClient.org returns the correct value
         """
