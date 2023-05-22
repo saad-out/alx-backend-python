@@ -63,16 +63,15 @@ class TestGithubOrgClient(unittest.TestCase):
             {"id": 3, "name": "anvil-build"}
         ]
         mocked_get_json.return_value = repos
-        with patch.object(
-                          GithubOrgClient,
-                          '_public_repos_url',
-                          new_callable=PropertyMock
-                          ) as mocked_repos_url:
+        with patch(
+                   'client.GithubOrgClient._public_repos_url',
+                   new_callable=PropertyMock
+                   ) as mocked_repos_url:
             mocked_repos_url.return_value = REPOS_URL
             org_client: GithubOrgClient = GithubOrgClient("google")
             self.assertEqual(
                              org_client.public_repos(),
-                             [repo["name"] for repo in repos]
+                             ["truth", "autoparse", "anvil-build"]
                              )
             mocked_repos_url.assert_called_once()
         mocked_get_json.assert_called_once()
