@@ -6,7 +6,6 @@ from typing import List, Dict
 from parameterized import parameterized, parameterized_class
 from unittest.mock import patch, Mock, PropertyMock
 import unittest
-import requests
 
 from client import GithubOrgClient
 from fixtures import TEST_PAYLOAD
@@ -116,6 +115,25 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     def tearDown(self) -> None:
         """Tear Down method"""
         self.get_patcher.stop()
+
+    def test_public_repos(self) -> None:
+        """
+        Test that GithubOrgClient.public_repos returns the correct list of
+        repos
+        """
+        org_client: GithubOrgClient = GithubOrgClient("google")
+        self.assertEqual(org_client.public_repos(), self.expected_repos)
+
+    def test_public_repos_with_license(self) -> None:
+        """
+        Test that GithubOrgClient.public_repos returns the correct list of
+        repos filtered by license
+        """
+        org_client: GithubOrgClient = GithubOrgClient("google")
+        self.assertEqual(
+                         org_client.public_repos("apache-2.0"),
+                         self.apache2_repos
+                        )
 
 
 if __name__ == "__main__":
