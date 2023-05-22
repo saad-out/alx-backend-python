@@ -88,8 +88,7 @@ class TestGithubOrgClient(unittest.TestCase):
         """
         Test that GithubOrgClient.has_license returns the correct value
         """
-        org_client: GithubOrgClient = GithubOrgClient("fake")
-        self.assertEqual(org_client.has_license(repo, license_key),
+        self.assertEqual(GithubOrgClient.has_license(repo, license_key),
                          has_license)
 
 
