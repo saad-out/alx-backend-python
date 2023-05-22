@@ -3,11 +3,13 @@
 This module contains the unit tests for client.py
 """
 from typing import List, Dict
-from parameterized import parameterized
+from parameterized import parameterized, parameterized_class
 from unittest.mock import patch, Mock, PropertyMock
 import unittest
+import requests
 
 from client import GithubOrgClient
+from fixtures import TEST_PAYLOAD
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -90,6 +92,30 @@ class TestGithubOrgClient(unittest.TestCase):
         """
         self.assertEqual(GithubOrgClient.has_license(repo, license_key),
                          has_license)
+
+
+@parameterized_class(
+    ('org_payload', 'repos_payload', 'expected_repos', 'apache2_repos'),
+    [
+        (TEST_PAYLOAD[0][0], TEST_PAYLOAD[0][1],
+         TEST_PAYLOAD[0][2], TEST_PAYLOAD[0][3])
+    ]
+)
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """
+    Class for testing GithubOrgClient integrated with fixtures.py
+    """
+    def setUp(self) -> None:
+        """Set Up method"""
+        self.get_patcher = patch('utils.requests.get')
+        self.mocked_get_request = self.get_patcher.start()
+        self.mocked_get_request.return_value.json.side_effect = [
+            self.org_payload, self.repos_payload
+        ]
+
+    def tearDown(self) -> None:
+        """Tear Down method"""
+        self.get_patcher.stop()
 
 
 if __name__ == "__main__":
