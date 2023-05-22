@@ -29,10 +29,11 @@ class TestGithubOrgClient(unittest.TestCase):
         """
         Test that GithubOrgClient.org returns the correct value
         """
+        URL = "https://api.github.com/orgs/{}".format(org)
         mocked_get_json.return_value = expected
         org_client: GithubOrgClient = GithubOrgClient(org)
         self.assertEqual(org_client.org, expected)
-        mocked_get_json.assert_called_once()
+        mocked_get_json.assert_called_once_with(URL)
 
     @patch.object(GithubOrgClient, 'org', new_callable=PropertyMock)
     def test_public_repos_url(self, mocked_org: Mock):
