@@ -74,7 +74,7 @@ class TestGithubOrgClient(unittest.TestCase):
                              ["truth", "autoparse", "anvil-build"]
                              )
             mocked_repos_url.assert_called_once()
-        mocked_get_json.assert_called_once()
+            mocked_get_json.assert_called_once()
 
     @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
