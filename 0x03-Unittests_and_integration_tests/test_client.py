@@ -72,6 +72,8 @@ class TestGithubOrgClient(unittest.TestCase):
                              org_client.public_repos(),
                              [repo["name"] for repo in repos]
                              )
+            mocked_get_json.assert_called_once()
+        mocked_get_json.assert_called_once()
 
 
 if __name__ == "__main__":
