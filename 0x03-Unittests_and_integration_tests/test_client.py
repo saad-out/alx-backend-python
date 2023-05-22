@@ -111,6 +111,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         self.mocked_get_request.return_value.json.side_effect = [
             self.org_payload, self.repos_payload
         ]
+        self.org_client: GithubOrgClient = GithubOrgClient("google")
 
     def tearDown(self) -> None:
         """Tear Down method"""
@@ -121,17 +122,15 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         Test that GithubOrgClient.public_repos returns the correct list of
         repos
         """
-        org_client: GithubOrgClient = GithubOrgClient("google")
-        self.assertEqual(org_client.public_repos(), self.expected_repos)
+        self.assertEqual(self.org_client.public_repos(), self.expected_repos)
 
     def test_public_repos_with_license(self) -> None:
         """
         Test that GithubOrgClient.public_repos returns the correct list of
         repos filtered by license
         """
-        org_client: GithubOrgClient = GithubOrgClient("google")
         self.assertEqual(
-                         org_client.public_repos("apache-2.0"),
+                         self.org_client.public_repos("apache-2.0"),
                          self.apache2_repos
                         )
 
